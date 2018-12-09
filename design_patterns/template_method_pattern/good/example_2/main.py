@@ -1,7 +1,13 @@
-import requests
+import os
+from .providers import Github
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
+
+APP_ROOT = os.path.join(os.path.dirname(__file__))
+dotenv_path = os.path.join(APP_ROOT, '.env')
+load_dotenv(dotenv_path)
 
 
 @app.route('/')
@@ -9,26 +15,17 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/authorize')
-def authorize():
-    client_id = 'd181717538f92576b383'
-    client_secret = '1e7fa177d06e004cd3d81520af862b8b3e17915b'
-    authorization_url = 'https://github.com/login/oauth/authorize?client_id={}'.format(client_id)
-    return redirect(authorization_url)
+@app.route('/auth/redirect/github')
+def authorize_github():
+    github = Github()
+    return github.authorize()
 
 
-@app.route('/github/login')
+@app.route('/auth/callback/github')
 def login():
-    code = request.args.get('code')
-    client_id = 'd181717538f92576b383'
-    client_secret = '1e7fa177d06e004cd3d81520af862b8b3e17915b'
-    request_body = {
-        'code': code,
-        'client_id': client_id,
-        'client_secret': client_secret
-    }
-    print(request_body)
-    return 'a'
+    github = Github()
+    github.user(code=request.args.get('code'))
+    return 'abc'
 
 
 if __name__ == '__main__':
