@@ -8,8 +8,18 @@
     <title>Template Method Pattern</title>
 </head>
 <body>
-    <div>
-        <a href="/auth/redirect/github">Github</a>
-    </div>
+<div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <a href="/auth/redirect/github">Github</a>
+</div>
 </body>
 </html>

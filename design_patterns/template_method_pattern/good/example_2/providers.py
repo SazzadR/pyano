@@ -12,13 +12,19 @@ class Provider(metaclass=ABCMeta):
     @abstractmethod
     def get_access_token_url(self): pass
 
+    @abstractmethod
+    def get_user_by_token(self, token): pass
+
+    @abstractmethod
+    def map_to_user(self, user): pass
+
     def authorize(self):
         return redirect(self.get_authorization_url())
 
     def user(self, code):
         token = self.request_access_token(code)
-        # user = self.get_user_by_token(token)
-        # return self.map_to_user(user)
+        user = self.get_user_by_token(token)
+        return self.map_to_user(user)
 
     def request_access_token(self, code):
         request_params = {
@@ -46,3 +52,18 @@ class Github(Provider):
 
     def get_access_token_url(self):
         return 'https://github.com/login/oauth/access_token'
+
+    def get_user_by_token(self, token):
+        headers = {
+            'Accept': 'application/json',
+            'Authorization': 'token {}'.format(token)
+        }
+
+        response = requests.get('https://api.github.com/user', headers=headers)
+        return response.json()
+
+    def map_to_user(self, user):
+        return {
+            'username': user['login'],
+            'name': user['name']
+        }
