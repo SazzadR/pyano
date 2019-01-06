@@ -1,0 +1,146 @@
+{% extends 'blog/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .imagePreview {
+            width: 100%;
+            height: 180px;
+            background-position: center center;
+            background: url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+            background-color: #fff;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: inline-block;
+            box-shadow: 0 -3px 6px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            display: block;
+            border-radius: 0;
+            box-shadow: 0 4px 6px 2px rgba(0, 0, 0, 0.2);
+            margin-top: -5px;
+        }
+
+        .imgUp {
+            margin-bottom: 15px;
+        }
+
+        .del {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            background-color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+        }
+
+        .imgAdd {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #4bd7ef;
+            color: #fff;
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            line-height: 30px;
+            margin-top: 0;
+            cursor: pointer;
+            font-size: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <img src="{{ request.user.profile.image_url }}" alt="{{ request.user.name }}"
+                 class="rounded-circle account-img">
+            <div class="media-body">
+                <h2 class="account-heading">{{ request.user.username }}</h2>
+                <p class="text-secondary">{{ request.user.email }}</p>
+            </div>
+        </div>
+        <form action="{% url 'accounts:profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in user_form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="col-form-label">
+                        {{ field.label }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+                    </label>
+                    {% if field.errors %}
+                        {% render_field field class="form-control is-invalid" %}
+                        <small class="form-text text-muted">
+                            {% for error in field.errors %}
+                                <li class="text-danger">{{ error }}</li>
+                            {% endfor %}
+                        </small>
+                    {% else %}
+                        {% render_field field %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% for field in profile_form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="col-form-label">
+                        {{ field.label }}
+                    </label>
+                    <div class="col-sm-4 imgUp">
+                        <div class="imagePreview"></div>
+                        <label class="btn btn-primary">
+                            Upload<input type="file" name="image" class="uploadFile img" value="Upload Photo"
+                                         style="width: 0;height: 0;overflow: hidden;">
+                        </label>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $(document).on("change", ".uploadFile", function () {
+                var uploadFile = $(this);
+                var files = !!this.files ? this.files : [];
+                if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+                if (/^image/.test(files[0].type)) { // only image file
+                    var reader = new FileReader(); // instance of the FileReader
+                    reader.readAsDataURL(files[0]); // read the local file
+
+                    reader.onloadend = function () { // set image data as background of div
+                        uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
+                    }
+                }
+
+            });
+        });
+
+        (function () {
+            var userName = document.getElementById('id_username').value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    var image = "data:image/jpeg;base64,"  + this.response;
+                    $(".uploadFile").closest(".imgUp").find('.imagePreview').css("background-image", "url(" +  image + ")");
+                }
+            };
+            xhttp.open('GET', userName + '/image', true);
+            xhttp.send();
+        })();
+    </script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'djangounchained/master.html' %}
+
+{% block styles %}
+    <style type="text/css">
+        .errors {
+            width: 40%;
+            margin: 50px auto;
+        }
+
+        .login-form {
+            width: 340px;
+            margin: 50px auto;
+        }
+
+        .login-form form {
+            margin-bottom: 15px;
+            background: #f7f7f7;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .login-form h2 {
+            margin: 0 0 15px;
+        }
+
+        .form-control, .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+{% endblock styles %}
+
+{% block root_content %}
+    {% if form.errors %}
+        <div class="alert alert-danger errors">
+            <a href="javascript:void(0)" class="close" data-dismiss="alert">&times;</a>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <div class="login-form">
+        <form action="{% url 'accounts:login' %}" method="post">
+            <h2 class="text-center">Log in</h2>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Log in</button>
+            </div>
+            <div class="clearfix">
+                <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
+                <a href="javascript:void(0)" class="pull-right">Forgot Password?</a>
+            </div>
+        </form>
+        <p class="text-center"><a href="{% url 'accounts:register' %}">Create an Account</a></p>
+    </div>
+{% endblock root_content %}
