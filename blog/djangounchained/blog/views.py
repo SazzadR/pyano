@@ -17,6 +17,10 @@ class PostListView(ListView):
     ordering = ['-date_posted']
     context_object_name = 'posts'
     template_name = 'blog/home.html'
+    paginate_by = 5
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('paginate_by', self.paginate_by)
 
 
 class PostDetailView(DetailView):
