@@ -4,7 +4,7 @@
     <form class="form-inline" action="." method="get" style="margin-bottom: 1em">
         <div class="form-group">
             <label for="per-page">Per Page</label>&nbsp;
-            <select name="paginate_by" class="form-control" id="per-page">
+            <select name="paginate_by" class="form-control" id="per-page" onchange="set_paginate_by()">
                 <option value="5" selected>5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
@@ -52,3 +52,20 @@
         {% endif %}
     {% endif %}
 {% endblock content %}
+
+{% block javascripts %}
+    <script>
+        function set_paginate_by() {
+            var host = window.location.protocol + '//' + window.location.host;
+            var paginate_by = event.srcElement.value;
+            var url_params = new URLSearchParams(window.location.search);
+            var page = (url_params.get('page')) ? url_params.get('page') : 1;
+            var request_url = host + '?page=' + page + '&paginate_by=' + paginate_by;
+            window.location.replace(request_url);
+        }
+
+        var url_params = new URLSearchParams(window.location.search);
+        var paginate_by = (url_params.get('paginate_by')) ? url_params.get('paginate_by') : 5;
+        document.getElementById('per-page').value = paginate_by;
+    </script>
+{% endblock %}
