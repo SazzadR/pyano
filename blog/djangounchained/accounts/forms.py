@@ -2,6 +2,7 @@ from django import forms
 from accounts.models import User, Profile
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import PasswordResetForm as PasswordResetFormCore, SetPasswordForm as SetPasswordFormCore
 
 
 class RegistrationForm(UserCreationForm):
@@ -145,3 +146,36 @@ class ProfileForm(forms.ModelForm):
         labels = {
             'image': 'Profile image'
         }
+
+
+class PasswordResetForm(PasswordResetFormCore):
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'id': 'email',
+            'placeholder': 'Email'
+        }
+    ))
+
+
+class SetPasswordForm(SetPasswordFormCore):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'new_password1',
+                'placeholder': 'New password'
+            }
+        ),
+        strip=False,
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'new_password2',
+                'placeholder': 'Retype new password'
+            }
+        ),
+        strip=False,
+    )

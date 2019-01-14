@@ -157,3 +157,11 @@ AUTHENTICATION_BACKENDS = (
 
 # Celery settings
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('MAIL_HOST')
+EMAIL_USE_TLS = True
+EMAIL_PORT = os.getenv('MAIL_PORT')
+EMAIL_HOST_USER = os.getenv('MAIL_USERNAME')
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
