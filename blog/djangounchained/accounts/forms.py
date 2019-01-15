@@ -1,4 +1,5 @@
 from django import forms
+from accounts.tasks import send_mail
 from accounts.models import User, Profile
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -156,6 +157,14 @@ class PasswordResetForm(PasswordResetFormCore):
             'placeholder': 'Email'
         }
     ))
+
+    def send_mail(self, subject_template_name, email_template_name, context, from_email, to_email,
+                  html_email_template_name=None):
+        context['user'] = context['user'].id
+
+        send_mail.delay(subject_template_name=subject_template_name, email_template_name=email_template_name,
+                        context=context, from_email=from_email, to_email=to_email,
+                        html_email_template_name=html_email_template_name)
 
 
 class SetPasswordForm(SetPasswordFormCore):

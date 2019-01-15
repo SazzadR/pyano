@@ -4,7 +4,8 @@ import glob
 from pathlib import Path
 from celery import shared_task
 from django.conf import settings
-from accounts.models import Profile as ProfileModel
+from django.contrib.auth.forms import PasswordResetForm
+from accounts.models import Profile as ProfileModel, User
 
 
 @shared_task
@@ -24,3 +25,19 @@ def clear_unused_profile_images():
     for stored_profile_picture in stored_profile_pictures:
         if stored_profile_picture not in profile_pictures:
             os.remove(f'{profile_pictures_directory}{stored_profile_picture}')
+
+
+@shared_task
+def send_mail(subject_template_name, email_template_name, context,
+              from_email, to_email, html_email_template_name):
+    context['user'] = User.objects.get(pk=context['user'])
+
+    PasswordResetForm.send_mail(
+        None,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name
+    )
