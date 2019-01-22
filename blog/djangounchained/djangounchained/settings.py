@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'tango',
     'django_extensions',
+    'channels',
     'blog',
     'accounts.apps.AccountsConfig',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'djangounchained.wsgi.application'
+
+# Channels
+ASGI_APPLICATION = 'djangounchained.routing.application'
 
 
 # Database
