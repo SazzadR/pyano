@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'channels',
     'blog',
     'accounts.apps.AccountsConfig',
+    'blog_chat.apps.BlogChatConfig',
     'chat',
 ]
 

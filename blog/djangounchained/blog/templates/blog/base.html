@@ -18,6 +18,7 @@
                     {% if request.user.is_authenticated %}
                         <div class="navbar-nav">
                             <a class="nav-item nav-link" href="{% url 'blog:post_create' %}">Create Post</a>
+                            <a class="nav-item nav-link" href="{% url 'blog_chat:home' %}">Chat</a>
                             <a class="nav-item nav-link" href="{% url 'accounts:profile' %}">Profile</a>
                             <a class="nav-item nav-link" href="{% url 'accounts:logout' %}">Logout</a>
                         </div>
