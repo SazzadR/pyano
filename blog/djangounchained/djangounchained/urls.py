@@ -23,7 +23,6 @@ urlpatterns = [
     # path('', views.default),
     path('', include('blog.urls')),
     path('accounts/', include('accounts.urls')),
-    path('chat/', include('chat.urls')),
     path('blog-chat/', include('blog_chat.urls')),
 
     path('admin/', admin.site.urls),

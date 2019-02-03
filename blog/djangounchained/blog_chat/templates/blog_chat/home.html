@@ -221,7 +221,7 @@
 {% endblock styles %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" id="app">
         <div class="messaging">
             <div class="inbox_msg">
                 <div class="inbox_people">
@@ -324,48 +324,26 @@
                                                                alt="sunil"></div>
                             <div class="received_msg">
                                 <div class="received_withd_msg">
-                                    <p>Test which is a new approach to have all
-                                        solutions</p>
-                                    <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                                    <p>Test which is a new approach to have all solutions</p>
+                                    <span class="time_date"> 11:01 AM    |    June 9</span>
+                                </div>
                             </div>
                         </div>
                         <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Test which is a new approach to have all
-                                    solutions</p>
-                                <span class="time_date"> 11:01 AM    |    June 9</span></div>
-                        </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                               alt="sunil"></div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>Test, which is a new approach to have</p>
-                                    <span class="time_date"> 11:01 AM    |    Yesterday</span></div>
-                            </div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Apollo University, Delhi, India Test</p>
-                                <span class="time_date"> 11:01 AM    |    Today</span></div>
-                        </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                               alt="sunil"></div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>We work directly with our designers and suppliers,
-                                        and sell direct to you, which means quality, exclusive
-                                        products, at a price anyone can afford.</p>
-                                    <span class="time_date"> 11:01 AM    |    Today</span></div>
+                            <div class="sent_msg" id="sent_msg">
+                                <div>
+                                    <p>Test which is a new approach to have all solutions</p>
+                                    <span class="time_date"> 11:01 AM    |    June 9</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
-                            <input type="text" class="write_msg" placeholder="Type a message"/>
-                            <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o"
-                                                                          aria-hidden="true"></i></button>
+                            <input type="text" class="write_msg" id="write_msg" placeholder="Type a message"/>
+                            <button class="msg_send_btn" id="msg_send_btn" type="button"><i class="fa fa-paper-plane-o"
+                                                                                            aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -373,3 +351,49 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block javascripts %}
+    <script>
+        var room_name = "{{ request.user }}";
+        var chat_socket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + room_name + '/');
+
+        var append_chat_message = function (data) {
+            var message = data['message'];
+            var date_string = data['date_string'];
+
+            var div_node = document.createElement('div');
+
+            var p_node = document.createElement('p');
+            var message_node = document.createTextNode(message);
+            p_node.append(message_node);
+
+            var span_node = document.createElement('span');
+            span_node.setAttribute('class', 'time_date');
+            var date_string_node = document.createTextNode(date_string);
+            span_node.appendChild(date_string_node);
+
+            div_node.append(p_node);
+            div_node.append(span_node);
+
+            document.getElementById('sent_msg').appendChild(div_node);
+        };
+
+        chat_socket.onmessage = function (ev) {
+            var data = JSON.parse(ev.data);
+            append_chat_message(data);
+        };
+
+        chat_socket.onclose = function (ev) {
+            console.log('Chat socket closed!');
+        };
+
+        document.querySelector('#msg_send_btn').onclick = function (ev) {
+            var message_input_dom = document.querySelector('#write_msg');
+            var message = message_input_dom.value;
+            chat_socket.send(JSON.stringify({
+                'message': message
+            }));
+            message_input_dom.value = '';
+        };
+    </script>
+{% endblock %}
