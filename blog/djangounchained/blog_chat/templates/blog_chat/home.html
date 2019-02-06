@@ -1,6 +1,7 @@
 {% extends 'djangounchained/base-no-sidebar.html' %}
 
 {% block styles %}
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .container {
             max-width: 1170px;
@@ -341,8 +342,8 @@
                     <div class="type_msg">
                         <div class="input_msg_write">
                             <input type="text" class="write_msg" id="write_msg" placeholder="Type a message"/>
-                            <button class="msg_send_btn" id="msg_send_btn" type="button"><i class="fa fa-paper-plane-o"
-                                                                                            aria-hidden="true"></i>
+                            <button class="msg_send_btn" id="msg_send_btn" type="button">
+                                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -385,6 +386,12 @@
 
         chat_socket.onclose = function (ev) {
             console.log('Chat socket closed!');
+        };
+
+        document.querySelector('#write_msg').onkeyup = function (ev) {
+            if (ev.key === 'Enter') {
+                document.querySelector('#msg_send_btn').click();
+            }
         };
 
         document.querySelector('#msg_send_btn').onclick = function (ev) {
