@@ -1,0 +1,60 @@
+{% extends 'djangounchained/layouts/app.html' %}
+
+{% load widget_tweaks %}
+
+{% block css %}
+    <style>
+        .message-box {
+            background-color: #6c757d12;
+            max-height: 20em;
+            min-height: 10em;
+            overflow: scroll;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        Thread for
+                        {% if request.user == object.first %}
+                            <b>{{ object.second }}</b>
+                        {% else %}
+                            <b>{{ object.first }}</b>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12 mb-3 rounded message-box">
+                            <ul>
+                                {% for chat in object.chatmessage_set.all %}
+                                    <li>
+                                        {{ chat.message }} by
+                                        <i><u>{{ chat.user }}</u></i>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    {% for field in form.visible_fields %}
+                                        <div class="form-group col-md-12">
+                                            {% render_field field %}
+                                        </div>
+                                    {% endfor %}
+                                    <div class="form-group col-md-12">
+                                        <button class="btn btn-block btn-info" type="submit">Send</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

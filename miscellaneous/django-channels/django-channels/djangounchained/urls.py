@@ -20,9 +20,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('home', include('home.urls', namespace='home')),
     path('', include('accounts.urls', namespace='accounts')),
+    path('home/', include('home.urls', namespace='home')),
     path('', views.default),
+    path('messages/', include('chat.urls', namespace='chat')),
 
     path('admin/', admin.site.urls),
 ]

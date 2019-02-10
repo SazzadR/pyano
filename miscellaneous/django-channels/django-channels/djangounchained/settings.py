@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'django_extensions',
-    'channels',
     'tango',
     'home',
+    'chat',
     'accounts',
 ]
 
@@ -78,8 +78,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'djangounchained.wsgi.application'
-
-ASGI_APPLICATION = "djangounchained.routing.application"
 
 
 # Database

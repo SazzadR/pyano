@@ -1,9 +1,12 @@
+ansimarkup==1.4.0
 asgiref==2.3.2
 async-timeout==3.0.1
 attrs==18.2.0
 autobahn==19.1.1
 Automat==0.7.0
+better-exceptions-fork==0.2.1.post6
 channels==2.1.7
+colorama==0.4.1
 constantly==15.1.0
 daphne==2.2.5
 Django==2.1.2
@@ -12,8 +15,10 @@ django-widget-tweaks==1.4.3
 hyperlink==18.0.0
 idna==2.8
 incremental==17.5.0
+loguru==0.2.5
 psycopg2==2.7.5
 psycopg2-binary==2.7.5
+Pygments==2.3.1
 PyHamcrest==1.9.0
 python-dotenv==0.9.1
 pytz==2018.5
