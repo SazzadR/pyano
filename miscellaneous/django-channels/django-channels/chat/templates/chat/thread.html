@@ -58,3 +58,26 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        var protocol = (window.location.protocol === 'http:') ? 'ws' : 'wss';
+        var host = window.location.host;
+        var pathname = window.location.pathname;
+        var endpoint = protocol + '://' + host + pathname;
+
+        var ws = new WebSocket(endpoint);
+        ws.onopen = function (ev) {
+            console.log(ev);
+        };
+        ws.onmessage = function (ev) {
+            console.log(ev);
+        };
+        ws.onerror = function (ev) {
+            console.log(ev);
+        };
+        ws.onclose = function (ev) {
+            console.log(ev);
+        };
+    </script>
+{% endblock %}
