@@ -1,0 +1,9 @@
+{% extends 'djangoplayground/master.html' %}
+
+{% block content %}
+    <h4>{{ product.title }}</h4>
+    <p>{{ product.description }}</p>
+    <b><i>${{ product.price }}</i></b>
+    <p>{{ product.summary }}</p>
+    <a href="{% url 'products:list' %}"><< Back</a>
+{% endblock %}
