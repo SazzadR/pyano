@@ -1,4 +1,0 @@
-class DummyClass:
-    @staticmethod
-    def run():
-        pass
