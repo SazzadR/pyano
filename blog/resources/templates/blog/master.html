@@ -1,0 +1,26 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Django Blog | {% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/vendors.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+{% include 'blog/partials/nav.html' %}
+
+<main role="main" class="container">
+    {% block contents %}{% endblock %}
+</main>
+
+<hr>
+<p class="text-center love">Made with <span class="glyphicon glyphicon-heart"></span> by <span class="django">Django</span></p>
+</body>
+</html>
