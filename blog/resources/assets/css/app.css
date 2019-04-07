@@ -71,3 +71,7 @@ img.reduce-width {
 .django {
     color: #194B33;
 }
+
+.form-control.is-invalid {
+    background-image: none;
+}

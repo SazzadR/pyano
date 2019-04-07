@@ -1,0 +1,15 @@
+{% extends 'blog/master.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block contents %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

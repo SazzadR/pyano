@@ -35,8 +35,8 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="javascript:void(0)">Logout</a>
                     {% else %}
-                        <a class="dropdown-item" href="javascript:void(0)">Login</a>
-                        <a class="dropdown-item" href="javascript:void(0)">Register</a>
+                        <a class="dropdown-item" href="{% url 'users:login' %}">Login</a>
+                        <a class="dropdown-item" href="{% url 'users:signup' %}">Register</a>
                     {% endif %}
                 </div>
             </li>
