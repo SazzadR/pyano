@@ -1,4 +1,5 @@
 {
     "/resources/static/css/vendors.css": "/resources/static/css/vendors.css",
-    "/resources/static/css/app.css": "/resources/static/css/app.css"
+    "/resources/static/css/app.css": "/resources/static/css/app.css",
+    "/resources/static/js/vendors.js": "/resources/static/js/vendors.js"
 }
