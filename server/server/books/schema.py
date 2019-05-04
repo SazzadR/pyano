@@ -8,13 +8,14 @@ class BookType(graphene.ObjectType):
     id = graphene.ID()
     title = graphene.String()
     genre = graphene.String()
+    author_id = graphene.Int()
 
 
 # dummy data
 books = [
-    BookType(id='1', title='Name of the Wind', genre='Fantasy'),
-    BookType(id='2', title='The Final Empire', genre='Fantasy'),
-    BookType(id='3', title='The Long Earth', genre='Sci-Fi'),
+    BookType(id='1', title='Name of the Wind', genre='Fantasy', author_id='1'),
+    BookType(id='2', title='The Final Empire', genre='Fantasy', author_id='2'),
+    BookType(id='3', title='The Long Earth', genre='Sci-Fi', author_id='3'),
 ]
 
 

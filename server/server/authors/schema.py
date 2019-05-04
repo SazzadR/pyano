@@ -1,5 +1,7 @@
 import graphene
 
+from server.books.schema import BookType, books
+
 
 class AuthorType(graphene.ObjectType):
     name = 'Author'
@@ -8,6 +10,14 @@ class AuthorType(graphene.ObjectType):
     id = graphene.ID()
     author_name = graphene.String()
     age = graphene.Int()
+    books = graphene.List(BookType)
+
+    def resolve_books(self, info, **kwargs):
+        response = []
+        for book in books:
+            if self.id == book.author_id:
+                response.append(book)
+        return response
 
 
 # dummy data
