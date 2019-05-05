@@ -1,5 +1,7 @@
 import graphene
 
+from server.authors.schema import AuthorType, authors
+
 
 class BookType(graphene.ObjectType):
     name = 'Book'
@@ -8,14 +10,19 @@ class BookType(graphene.ObjectType):
     id = graphene.ID()
     title = graphene.String()
     genre = graphene.String()
-    author_id = graphene.Int()
+    author = graphene.Field(AuthorType)
+
+    def resolve_author(self, info, **kwargs):
+        for author in authors:
+            if self.author == author.id:
+                return author
 
 
 # dummy data
 books = [
-    BookType(id='1', title='Name of the Wind', genre='Fantasy', author_id='1'),
-    BookType(id='2', title='The Final Empire', genre='Fantasy', author_id='2'),
-    BookType(id='3', title='The Long Earth', genre='Sci-Fi', author_id='3'),
+    BookType(id='1', title='Name of the Wind', genre='Fantasy', author='1'),
+    BookType(id='2', title='The Final Empire', genre='Fantasy', author='2'),
+    BookType(id='3', title='The Long Earth', genre='Sci-Fi', author='3'),
 ]
 
 
