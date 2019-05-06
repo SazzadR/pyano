@@ -22,7 +22,7 @@ class BookType(graphene.ObjectType):
 books = [
     BookType(id='1', title='Name of the Wind', genre='Fantasy', author='1'),
     BookType(id='2', title='The Final Empire', genre='Fantasy', author='2'),
-    BookType(id='3', title='The Long Earth', genre='Sci-Fi', author='3'),
+    BookType(id='3', title='The Long Earth', genre='Sci-Fi', author='2'),
 ]
 
 
