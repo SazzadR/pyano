@@ -1,39 +1,22 @@
 import graphene
+from graphene_django.types import DjangoObjectType
 
-from server.authors.schema import AuthorType, authors
-
-
-class BookType(graphene.ObjectType):
-    name = 'Book'
-    description = '...'
-
-    id = graphene.ID()
-    title = graphene.String()
-    genre = graphene.String()
-    author = graphene.Field(AuthorType)
-
-    def resolve_author(self, info, **kwargs):
-        for author in authors:
-            if self.author == author.id:
-                return author
+from server.books.models import Book
 
 
-# dummy data
-books = [
-    BookType(id='1', title='Name of the Wind', genre='Fantasy', author='1'),
-    BookType(id='2', title='The Final Empire', genre='Fantasy', author='2'),
-    BookType(id='3', title='The Long Earth', genre='Sci-Fi', author='2'),
-]
+class BookType(DjangoObjectType):
+    class Meta:
+        model = Book
 
 
-class QueryType(graphene.ObjectType):
-    name = 'Query'
-    description = '...'
+class Query(object):
+    all_books = graphene.List(BookType)
 
-    book = graphene.Field(
-        BookType,
-        id=graphene.ID()
-    )
+    book = graphene.Field(BookType,
+                          id=graphene.Int())
+
+    def resolve_all_books(self, info, **kwargs):
+        return Book.objects.all()
 
     def resolve_book(self, info, **kwargs):
         book_id = kwargs.get('id')
@@ -41,6 +24,7 @@ class QueryType(graphene.ObjectType):
         if book_id is None:
             return None
         else:
-            for book in books:
-                if book.id == book_id:
-                    return book
+            try:
+                return Book.objects.get(pk=book_id)
+            except Exception:
+                return None

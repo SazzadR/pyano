@@ -1,42 +1,29 @@
 import graphene
+from graphene_django.types import DjangoObjectType
+
+from server.authors.models import Author
+from server.books.schema import BookType
 
 
-class AuthorType(graphene.ObjectType):
-    name = 'Author'
-    description = '...'
+class AuthorType(DjangoObjectType):
+    books = graphene.List(BookType)
 
-    id = graphene.ID()
-    author_name = graphene.String()
-    age = graphene.Int()
-    books = graphene.List(graphene.lazy_import('server.books.schema.BookType'))
+    class Meta:
+        model = Author
+        exclude_fields = ('book_set',)
 
     def resolve_books(self, info, **kwargs):
-        from server.books.schema import books
-
-        response = []
-        for book in books:
-            if self.id == book.author:
-                response.append(book)
-
-        return response
+        return self.book_set.all()
 
 
-# dummy data
-authors = [
-    AuthorType(id='1', author_name='Patrick Rothfuss', age=44),
-    AuthorType(id='2', author_name='Brandon Sanderson', age=42),
-    AuthorType(id='3', author_name='Terry Pratchett', age=66),
-]
+class Query(object):
+    all_authors = graphene.List(AuthorType)
 
+    author = graphene.Field(AuthorType,
+                            id=graphene.Int())
 
-class QueryType(graphene.ObjectType):
-    name = 'Query'
-    description = '...'
-
-    author = graphene.Field(
-        AuthorType,
-        id=graphene.ID()
-    )
+    def resolve_all_authors(self, info, **kwargs):
+        return Author.objects.all()
 
     def resolve_author(self, info, **kwargs):
         author_id = kwargs.get('id')
@@ -44,6 +31,7 @@ class QueryType(graphene.ObjectType):
         if author_id is None:
             return None
         else:
-            for author in authors:
-                if author.id == author_id:
-                    return author
+            try:
+                return Author.objects.get(pk=author_id)
+            except Exception:
+                return None
