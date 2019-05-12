@@ -10,7 +10,7 @@ class BookType(DjangoObjectType):
         model = Book
 
 
-class Query(object):
+class Query(graphene.ObjectType):
     all_books = graphene.List(BookType)
 
     book = graphene.Field(BookType,

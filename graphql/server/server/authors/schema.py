@@ -16,7 +16,7 @@ class AuthorType(DjangoObjectType):
         return self.book_set.all()
 
 
-class Query(object):
+class Query(graphene.ObjectType):
     all_authors = graphene.List(AuthorType)
 
     author = graphene.Field(AuthorType,
