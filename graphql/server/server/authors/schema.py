@@ -35,3 +35,20 @@ class Query(object):
                 return Author.objects.get(pk=author_id)
             except Exception:
                 return None
+
+
+class CreateAuthor(graphene.Mutation):
+    # The class attributes define the response of the mutation
+    author = graphene.Field(AuthorType)
+
+    class Arguments:
+        author_name = graphene.String(required=True)
+        age = graphene.Int(required=True)
+
+    def mutate(self, info, author_name, age):
+        author = Author.objects.create(author_name=author_name, age=age)
+        return CreateAuthor(author=author)
+
+
+class Mutation(graphene.ObjectType):
+    create_author = CreateAuthor.Field()

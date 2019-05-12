@@ -7,9 +7,13 @@ import server.authors.schema
 class Query(server.authors.schema.Query,
             server.books.schema.Query,
             graphene.ObjectType):
-    # This class will inherit from multiple Queries
-    # as we begin to add more apps to our project
     pass
 
 
-schema = graphene.Schema(query=Query)
+class Mutation(server.authors.schema.Mutation,
+               server.books.schema.Mutation,
+               graphene.ObjectType):
+    pass
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
