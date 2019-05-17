@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Query} from 'react-apollo';
+import {Link} from 'react-router-dom';
 
 import {GET_ALL_AUTHORS} from '../queries/queries';
 
@@ -19,7 +20,11 @@ class BookList extends Component {
                         <div>
                             <ul id="book-list">
                                 {data.allAuthors.map(author => (
-                                    <li key={author.id}>{author.authorName}</li>
+                                    <li key={author.id}>
+                                        <Link to={'/author/' + author.id}>
+                                            {author.authorName}
+                                        </Link>
+                                    </li>
                                 ))}
                             </ul>
                         </div>
