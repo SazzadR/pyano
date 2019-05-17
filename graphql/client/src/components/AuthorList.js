@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {Query} from 'react-apollo';
 
-import {GET_ALL_BOOKS} from '../queries/queries';
+import {GET_ALL_AUTHORS} from '../queries/queries';
 
 class BookList extends Component {
     render() {
         return (
-            <Query query={GET_ALL_BOOKS}>
+            <Query query={GET_ALL_AUTHORS}>
                 {({loading, error, data}) => {
                     if (loading) {
-                        return (<div>Loading books...</div>);
+                        return (<div>Loading authors...</div>);
                     }
                     if (error) {
                         return (`Error! ${error.message}`);
@@ -17,10 +17,9 @@ class BookList extends Component {
 
                     return (
                         <div>
-                            <h1>Ninja's Reading List</h1>
                             <ul id="book-list">
-                                {data.allBooks.map(book => (
-                                    <li key={book.id}>{book.title}</li>
+                                {data.allAuthors.map(author => (
+                                    <li key={author.id}>{author.authorName}</li>
                                 ))}
                             </ul>
                         </div>
