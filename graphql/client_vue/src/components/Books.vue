@@ -1,20 +1,24 @@
 <template>
     <div>
-        <h1>Ninja's Reading Lists</h1>
         <BookList/>
+        <CreateBook/>
     </div>
 </template>
 
 <script>
     import BookList from './BookList';
+    import CreateBook from './CreateBook';
 
     export default {
-        name: 'Home',
+        name: 'Books',
 
-        components: {BookList}
+        components: {
+            BookList,
+            CreateBook
+        }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>

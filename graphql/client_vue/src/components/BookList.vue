@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Ninja's Reading Lists</h1>
         <ul id="book-list">
             <li v-for="book in allBooks" v-bind:key="book.id">{{ book.title }}</li>
         </ul>
@@ -8,21 +7,15 @@
 </template>
 
 <script>
-    import gql from 'graphql-tag';
+    import {GET_ALL_BOOKS} from '../graphql/queries';
 
     export default {
         name: 'BookList',
+
         apollo: {
-            allBooks: gql`query {
-                allBooks {
-                    id
-                    title
-                }
-            }`
+            allBooks: GET_ALL_BOOKS
         }
     }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

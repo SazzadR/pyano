@@ -4,6 +4,7 @@ import ApolloClient from 'apollo-boost';
 import VueApollo from 'vue-apollo';
 import App from './App.vue';
 import Home from './components/Home';
+import Books from './components/Books';
 
 Vue.config.productionTip = false;
 
@@ -19,7 +20,8 @@ const apolloProvider = new VueApollo({
 });
 
 const routes = [
-    {path: '', component: Home}
+    {path: '', component: Home},
+    {path: '/books/', component: Books}
 ];
 
 const router = new VueRouter({routes});
