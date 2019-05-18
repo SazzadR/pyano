@@ -24,6 +24,7 @@
 </template>
 
 <script>
+    import {reset_object_to_empty} from '../services/helpers';
     import {GET_ALL_AUTHORS, GET_ALL_BOOKS, CREATE_BOOK} from '../graphql/queries';
 
     export default {
@@ -46,9 +47,8 @@
         methods: {
             create_book() {
                 const {title, genre, author_id} = this.book;
-                this.book.title = '';
-                this.book.genre = '';
-                this.book.author_id = '';
+                reset_object_to_empty(this.book);
+
                 this.$apollo.mutate({
                     mutation: CREATE_BOOK,
                     variables: {
