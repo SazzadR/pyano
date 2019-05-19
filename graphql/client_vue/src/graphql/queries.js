@@ -29,6 +29,19 @@ const GET_ALL_BOOKS = gql`
     }
 `;
 
+const GET_BOOK = gql`
+    query book($id: Int!) {
+        book (id: $id) {
+            id
+            title
+            genre
+            author {
+                authorName
+            }
+        }
+    }
+`;
+
 const CREATE_BOOK = gql`
     mutation createBook($title: String!, $genre: String!, $authorId: Int!) {
         createBook(title: $title, genre: $genre, authorId: $authorId) {
@@ -40,4 +53,4 @@ const CREATE_BOOK = gql`
     }
 `;
 
-export {GET_ALL_AUTHORS, CREATE_AUTHOR, GET_ALL_BOOKS, CREATE_BOOK};
+export {GET_ALL_AUTHORS, CREATE_AUTHOR, GET_ALL_BOOKS, GET_BOOK, CREATE_BOOK};

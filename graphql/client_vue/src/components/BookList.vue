@@ -1,7 +1,9 @@
 <template>
     <div>
         <ul id="book-list">
-            <li v-for="book in allBooks" v-bind:key="book.id">{{ book.title }}</li>
+            <li v-for="book in allBooks" v-bind:key="book.id">
+                <router-link :to="`/book/${book.id}`">{{ book.title }}</router-link>
+            </li>
         </ul>
     </div>
 </template>

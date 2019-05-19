@@ -5,6 +5,7 @@ import VueApollo from 'vue-apollo';
 import App from './App.vue';
 import Home from './components/Home';
 import Books from './components/Books';
+import BookDetails from './components/BookDetails';
 import Authors from './components/Authors';
 
 Vue.config.productionTip = false;
@@ -23,6 +24,7 @@ const apolloProvider = new VueApollo({
 const routes = [
     {path: '', component: Home},
     {path: '/books/', component: Books},
+    {path: '/book/:id', component: BookDetails},
     {path: '/authors/', component: Authors}
 ];
 
