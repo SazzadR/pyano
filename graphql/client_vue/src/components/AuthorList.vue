@@ -1,7 +1,9 @@
 <template>
     <div>
         <ul id="author-list">
-            <li v-for="author in allAuthors" v-bind:key="author.id">{{ author.authorName }}</li>
+            <li v-for="author in allAuthors" v-bind:key="author.id">
+                <router-link :to="`/author/${author.id}`">{{ author.authorName }}</router-link>
+            </li>
         </ul>
     </div>
 </template>

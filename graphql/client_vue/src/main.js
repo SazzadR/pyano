@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Books from './components/Books';
 import BookDetails from './components/BookDetails';
 import Authors from './components/Authors';
+import AuthorDetails from './components/AuthorDetails';
 
 Vue.config.productionTip = false;
 
@@ -25,7 +26,8 @@ const routes = [
     {path: '', component: Home},
     {path: '/books/', component: Books},
     {path: '/book/:id', component: BookDetails},
-    {path: '/authors/', component: Authors}
+    {path: '/authors/', component: Authors},
+    {path: '/author/:id', component: AuthorDetails}
 ];
 
 const router = new VueRouter({routes});
