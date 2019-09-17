@@ -1,0 +1,20 @@
+{% extends "core/master.html" %}
+
+{% block "contents" %}
+    <div id="registerForm">
+        <h2>Create a new account</h2>
+        <form action="{% url "authentication:register" %}" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            <button type="submit">Register</button>
+        </form>
+        <div class="login-link"><a href="{% url "authentication:login" %}">Already have an account? Login.</a></div>
+    </div>
+{% endblock %}

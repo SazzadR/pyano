@@ -1,1 +1,21 @@
-<h1>Home</h1>
+{% extends "core/master.html" %}
+
+{% load static %}
+
+{% block "body_class" %}index{% endblock %}
+
+{% block "contents" %}
+    <div id="main">
+        <div id="callToAction">
+            <img src="{% static "images/assets/logo_header.png" %}" alt="logo" class="logo"/>
+            <h2>Pizza is for everyone</h2>
+            <h3>Share your pie</h3>
+            <div class="make-pizza-button">
+                <a href="javascript:void(0)">Make a pizza!</a>
+            </div>
+        </div>
+        <div id="more">
+            <h2>Recent Pizzas</h2>
+        </div>
+    </div>
+{% endblock %}

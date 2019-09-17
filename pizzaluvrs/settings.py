@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "core",
+    "authentication",
     "home",
 ]
 
@@ -86,6 +88,10 @@ DATABASES = {
         "COLLATION": "utf8_general_ci",
     }
 }
+
+AUTH_USER_MODEL = "authentication.User"
+
+AUTHENTICATION_BACKENDS = ["authentication.backends.ModelBackend"]
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
