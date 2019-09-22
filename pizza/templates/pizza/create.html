@@ -1,0 +1,84 @@
+{% extends "core/master.html" %}
+
+{% load static %}
+
+{% block "contents" %}
+    <div id="makePizza">
+        <h1>Let's make a pizza!</h1>
+        <div id="pizzaSection">
+            <div class="name">
+                <input type="text" id="pizzaName" placeholder="Name this pie"/>
+                <button id="createPizza" onclick="createPizza()">Create</button>
+            </div>
+            <canvas id="pizza" height="400" width="400"></canvas>
+        </div>
+        <div id="toppingSection">
+            <h3>Choose your toppings</h3>
+            <ul id="toppings">
+                {% for topping in toppings %}
+                    <li class="topping" id="{{ topping.id }}">
+                        <img src="{{ topping.image.url }}" alt="{{ topping.name }}">
+                        <div>{{ topping.name }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block "footer_js" %}
+    <script>
+        var toppings = [];
+        var canvas = document.getElementById("pizza"),
+            ctx = canvas.getContext("2d");
+
+        var allToppings = document.getElementsByClassName("topping");
+        for (var i = 0; i < allToppings.length; i++) {
+            allToppings[i].addEventListener("click", function (evt) {
+                evt.preventDefault();
+                this.classList.toggle("added");
+                addTopping(this);
+            });
+        }
+
+        function addTopping(topping) {
+            if (topping.classList.contains("added")) {
+                toppings.push(topping.id);
+            } else {
+                var index = toppings.indexOf(topping.id);
+                if (index > -1) {
+                    toppings.splice(index, 1);
+                }
+            }
+            toppings.sort();
+            redrawPizza();
+        }
+
+        function redrawPizza() {
+            ctx.clearRect(0, 0, 400, 400);
+            toppings.forEach(function (topping) {
+                ctx.drawImage(document.getElementById(topping).getElementsByTagName("img")[0], 0, 0, 400, 400);
+            });
+        }
+
+        function createPizza() {
+            var pizza = {
+                "name": document.getElementById("pizzaName").value,
+                "toppings": toppings,
+                "image": canvas.toDataURL("image/png")
+            };
+
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function (ev) {
+                if (this.readyState === 4) {
+                    var redirectUrl = "{% url "pizza:list-by-user" pk=0 %}";
+                    redirectUrl.replace("0", this.responseText);
+                    window.location.replace(redirectUrl);
+                }
+            };
+            httpRequest.open("POST", "{% url "pizza:create" %}", true);
+            httpRequest.setRequestHeader("Content-type", "application/json");
+            httpRequest.send(JSON.stringify(pizza));
+        }
+    </script>
+{% endblock %}

@@ -11,11 +11,21 @@
             <h2>Pizza is for everyone</h2>
             <h3>Share your pie</h3>
             <div class="make-pizza-button">
-                <a href="javascript:void(0)">Make a pizza!</a>
+                <a href="{% url "pizza:create" %}">Make a pizza!</a>
             </div>
         </div>
         <div id="more">
             <h2>Recent Pizzas</h2>
+            <ul class="pizza-boxes">
+                {% for pizza in pizzas %}
+                    <li>
+                        <a href="{% url "pizza:show" pk=pizza.id %}">
+                            <img src="{{ pizza.image.url }}" alt="{{ pizza.name }}">
+                            <div class="name">{{ pizza.name }}</div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

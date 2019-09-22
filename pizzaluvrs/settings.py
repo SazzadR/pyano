@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "core",
     "authentication",
     "home",
-    "toppings",
+    "topping",
     "pizza",
 ]
 
@@ -94,6 +94,8 @@ DATABASES = {
 AUTH_USER_MODEL = "authentication.User"
 
 AUTHENTICATION_BACKENDS = ["authentication.backends.ModelBackend"]
+
+LOGIN_URL = "/authentication/login/"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

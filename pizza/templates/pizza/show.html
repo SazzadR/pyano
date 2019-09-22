@@ -1,0 +1,20 @@
+{% extends "core/master.html" %}
+
+{% load static %}
+
+{% block "contents" %}
+    <div id="viewPizza">
+        <div class="title">
+            <span class="pizza-name">{{ pizza.name }}</span> by <a href="{% url "pizza:list-by-user" pk=pizza.created_by_id %}">{{ pizza.created_by }}</a>
+        </div>
+        <img src="{{ pizza.image.url }}" class="pizza-image"/>
+        <div class="pizza-toppings">
+            <h4>Toppings:</h4>
+            <ul>
+                {% for topping in pizza.toppings.all %}
+                    <li>{{ topping.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
