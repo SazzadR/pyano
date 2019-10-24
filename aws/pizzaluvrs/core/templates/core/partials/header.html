@@ -1,0 +1,14 @@
+{% load static %}
+
+<header>
+    <img class="background" src="{% static "images/assets/header.png" %}" alt="header"/>
+    <a href="/"><img class="logo" src="{% static "images/assets/logo_header.png" %}" alt="logo"/></a>
+    <div class="user">
+        {% if request.user.is_authenticated %}
+            Hi, <a href="{% url "pizza:list-by-user" pk=request.user.id %}">{{ request.user.username }}</a>!&nbsp;&nbsp;
+            <a href="{% url "authentication:logout" %}">Logout</a>
+        {% else %}
+            <a href="{% url "authentication:login" %}">Login</a>
+        {% endif %}
+    </div>
+</header>

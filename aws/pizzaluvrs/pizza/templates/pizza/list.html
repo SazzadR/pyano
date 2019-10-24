@@ -1,0 +1,19 @@
+{% extends "core/master.html" %}
+
+{% load static %}
+
+{% block "contents" %}
+    <div id="userInfo">
+        <h2>{{ request.user }}</h2>
+        <ul class="pizza-boxes">
+            {% for pizza in pizzas %}
+                <li>
+                    <a href="{% url "pizza:show" pk=pizza.id %}">
+                        <img src="{{ pizza.image.url }}" alt="{{ pizza.name }}">
+                        <div class="name">{{ pizza.name }}</div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
