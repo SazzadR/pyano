@@ -93,5 +93,12 @@ db.sqlite3
 terraform/*
 !terraform/terraform.tf
 
+*.terraform.*
+*.tfstate
+secret.tfvars
+*.backup
+.terraform/
+*.pem
+
 /media
 !/media/pizza/.gitkeep
