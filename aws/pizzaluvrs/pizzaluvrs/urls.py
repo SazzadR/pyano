@@ -22,6 +22,7 @@ urlpatterns = [
     path("", include("home.urls")),
     path("authentication/", include("authentication.urls")),
     path("toppings/", include("topping.urls")),
+    path("api/toppings/", include("topping.api.urls")),
     path("pizza/", include("pizza.urls")),
     path('admin/', admin.site.urls),
 ]
