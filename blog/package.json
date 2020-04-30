@@ -7,7 +7,7 @@
     "devDependencies": {
         "bootstrap": "^4.3.1",
         "cross-env": "^5.2.0",
-        "jquery": "^3.3.1",
+        "jquery": "^3.5.0",
         "laravel-mix": "^4.0.15",
         "lodash": "^4.17.11",
         "open-iconic": "1.1.1",
